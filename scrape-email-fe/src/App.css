@@ -1,0 +1,36 @@
+/* Style the container */
+.editor-container {
+  max-width: 800px; /* Max width of the editor */
+  max-height: 500px; /* Max height of the editor */
+  margin: 0 auto; /* Center the editor horizontally */
+  border: 1px solid #ddd; /* Optional: Border around the editor */
+  padding: 10px; /* Optional: Padding inside the container */
+}
+
+/* Style the Quill editor itself */
+.ql-container {
+  max-height: 400px; /* Max height for the Quill content */
+  overflow-y: auto; /* Enable vertical scrolling if content exceeds max-height */
+}
+
+/* Optional: Customize toolbar */
+.ql-toolbar {
+  border-bottom: 1px solid #ddd; /* Optional: Add a border under the toolbar */
+}
+
+/* Optional: Customize the Quill editor text area */
+.ql-editor {
+  padding: 10px; /* Optional: Add padding inside the editor */
+}
+
+.editor-container {
+  max-width: 100%;
+  width: 90%; /* Makes the editor responsive */
+  max-height: 500px;
+  margin: 0 auto;
+}
+
+.ql-container {
+  max-height: 400px;
+  overflow-y: auto;
+}

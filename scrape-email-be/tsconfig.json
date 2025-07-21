@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",           // Target ECMAScript 2015
+    "module": "commonjs",         // Use CommonJS for Node.js compatibility
+    "strict": true,               // Enable all strict type-checking options
+    "esModuleInterop": true,      // Enable interop between CommonJS and ES Modules
+    "skipLibCheck": true,         // Skip type checking of declaration files
+    "forceConsistentCasingInFileNames": true, // Ensure consistent file naming
+    "outDir": "./dist",           // Output directory for compiled files
+    "rootDir": "./"               // Root directory of your source files
+  },
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"]
+}

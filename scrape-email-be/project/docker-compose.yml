@@ -1,0 +1,13 @@
+version: '3'
+services:
+ db:
+   image: mysql:latest
+   container_name: database
+   ports:
+     - "3306:3306"
+   command: --sql_mode="STRICT_TRANS_TABLES,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION"  
+   environment:
+     - MYSQL_ROOT_PASSWORD=test
+     - MYSQL_DATABASE=test
+   volumes:
+     - ./mysql-db:/var/lib/mysql

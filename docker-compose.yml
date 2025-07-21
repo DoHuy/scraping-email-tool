@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  scrape-email-be:
+    build:
+      context: ./scrape-email-be
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - PORT=3000
+    volumes:
+      - ./scrape-email-be:/app
+    restart: unless-stopped
+
+  scrape-email-fe:
+    build:
+      context: ./scrape-email-fe
+      dockerfile: Dockerfile
+    ports:
+      - "8080:80"
+    depends_on:
+      - scrape-email-be
+    volumes:
+      - ./scrape-email-fe:/app
+    restart: unless-stopped
