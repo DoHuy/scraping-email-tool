@@ -143,11 +143,11 @@ const ScrapeEmailForm: React.FC = () => {
 
     let accessToken = "";
     try {
+      console.log("Please login to Azure first.");
+      await msalInstance.initialize();
       // need to login to Azure first
       const signedInAzure = await getAccessToken();
       if (!signedInAzure) {
-        console.log("Please login to Azure first.");
-        await msalInstance.initialize();
         const loginResponse = await msalInstance.loginPopup({ scopes: SCOPES });
 
         const account = loginResponse.account;
