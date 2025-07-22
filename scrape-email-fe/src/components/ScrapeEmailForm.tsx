@@ -181,8 +181,19 @@ const ScrapeEmailForm: React.FC = () => {
           body: formData,
         }
       );
-      await response.json();
-      alert("Form submitted successfully!");
+      const blob = await response.blob();
+      // Download the xlsx file
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      // You can set a default file name or get it from response headers if available
+      a.download = "emails_status.xlsx";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      alert("Form submitted successfully! File downloaded.");
       // Reset form or keep data as needed
     } catch (error) {
       console.error("Submit failed:", error);
