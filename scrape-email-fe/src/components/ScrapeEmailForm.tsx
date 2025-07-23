@@ -17,6 +17,7 @@ import {
   msalInstance,
   SCOPES,
 } from "../services/client/msaConfig";
+import { fetchWithTimeout } from "../services/core.service";
 
 const ScrapeEmailForm: React.FC = () => {
   // States
@@ -89,7 +90,7 @@ const ScrapeEmailForm: React.FC = () => {
     }
     setScrapeLoading(true);
     try {
-      const response = await fetch(
+      const response = await fetchWithTimeout(
         `${import.meta.env.VITE_API_URL}/api/scrape`,
         {
           method: "POST",
@@ -97,7 +98,8 @@ const ScrapeEmailForm: React.FC = () => {
           body: JSON.stringify({
             links: inputText.split(",").map((line) => line.trim()),
           }),
-        }
+        },
+        30 * 60 * 1000
       );
       const { data: emails, message } = await response.json();
       if (Array.isArray(emails)) {
@@ -199,12 +201,13 @@ const ScrapeEmailForm: React.FC = () => {
         });
       }
 
-      const response = await fetch(
+      const response = await fetchWithTimeout(
         `${import.meta.env.VITE_API_URL}/api/sendEmails`,
         {
           method: "POST",
           body: formData,
-        }
+        },
+        30 * 60 * 1000
       );
       const blob = await response.blob();
       // Download the xlsx file
