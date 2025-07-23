@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useRef, useState } from "react";
 import {
   Container,
   Row,
@@ -29,7 +29,11 @@ const ScrapeEmailForm: React.FC = () => {
 
   const [subject, setSubject] = useState("");
 
+  // Rich text editor state
   const [editorState, setEditorState] = useState("");
+  const richTextEditorRef = useRef() as React.MutableRefObject<{
+    clear: () => void;
+  }>;
 
   const [files, setFiles] = useState<FileList | null>(null);
 
@@ -187,7 +191,7 @@ const ScrapeEmailForm: React.FC = () => {
       const a = document.createElement("a");
       a.href = url;
       // You can set a default file name or get it from response headers if available
-      a.download = "emails_status.xlsx";
+      a.download = `${new Date().toISOString()}_email_status.xlsx`;
       document.body.appendChild(a);
       a.click();
       a.remove();
@@ -205,6 +209,7 @@ const ScrapeEmailForm: React.FC = () => {
       setCustomEmail("");
       setSubject("");
       setEditorState("");
+      richTextEditorRef.current?.clear(); // Clear rich text editor
       setFiles(null);
       setInputError(null);
       setCustomEmailError(null);
@@ -322,6 +327,7 @@ const ScrapeEmailForm: React.FC = () => {
           <Form.Group controlId="emailBody" className="mb-3">
             <Form.Label>Email Body</Form.Label>
             <RichTextEditor
+              ref={richTextEditorRef}
               handleOnchange={(content) => {
                 setEditorState(content);
               }}
