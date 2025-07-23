@@ -27,6 +27,11 @@ const ScrapeEmailForm: React.FC = () => {
   const [customEmail, setCustomEmail] = useState("");
   const [customEmailError, setCustomEmailError] = useState<string | null>(null);
 
+  //file upload
+  const [customValidateUploadFile, setCustomValidateUploadFile] = useState<
+    string | null
+  >(null);
+
   const [subject, setSubject] = useState("");
 
   // Rich text editor state
@@ -132,6 +137,22 @@ const ScrapeEmailForm: React.FC = () => {
 
   // Handle file input change
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files != null ? e.target.files[0] : null;
+    if (file && file.size > 5 * 1024 * 1024) {
+      setCustomValidateUploadFile("File size must be less than 5MB");
+      return;
+    }
+    if (file) {
+      const isPdf =
+        file.type === "application/pdf" &&
+        file.name.toLowerCase().endsWith(".pdf");
+
+      if (!isPdf) {
+        setCustomValidateUploadFile("Only PDF files are allowed.");
+        return;
+      }
+    }
+
     setFiles(e.target.files);
   };
 
@@ -336,7 +357,15 @@ const ScrapeEmailForm: React.FC = () => {
           {/* Multiple file upload */}
           <Form.Group controlId="fileUpload" className="mb-3">
             <Form.Label>Upload Files</Form.Label>
-            <Form.Control type="file" multiple onChange={handleFileChange} />
+            <Form.Control
+              type="file"
+              multiple
+              onChange={handleFileChange}
+              isInvalid={!!customValidateUploadFile}
+            />
+            <Form.Control.Feedback type="invalid">
+              {customValidateUploadFile}
+            </Form.Control.Feedback>
           </Form.Group>
 
           {/* Submit */}
