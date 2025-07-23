@@ -21,8 +21,8 @@ const RichTextEditor = ({
     source: any,
     editor: any
   ) => {
-    setSharedEditorState(content);
     setEditorState(value);
+    setSharedEditorState(content);
   };
 
   // Defining the toolbar options (customizable)
