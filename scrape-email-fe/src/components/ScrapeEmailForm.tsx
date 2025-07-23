@@ -234,6 +234,7 @@ const ScrapeEmailForm: React.FC = () => {
       setFiles(null);
       setInputError(null);
       setCustomEmailError(null);
+      setCustomValidateUploadFile(null);
     }
   };
 
