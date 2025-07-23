@@ -123,21 +123,26 @@ export class ResourceService implements IResourceService {
             //
             // wait 2 seconds each time
             //await new Promise((res) => setTimeout(res, 2000))
-            const sendEmailPromises = emails.map((email) =>
-                this.SendEmail(
-                    accessToken || '',
-                    email,
-                    subject,
-                    body,
-                    attachedFiles
-                )
-            )
+
+            const sendEmailPromises = chunk(
+                emails.map((email) =>
+                    this.SendEmail(
+                        accessToken || '',
+                        email,
+                        subject,
+                        body,
+                        attachedFiles
+                    )
+                ),
+                3
+            ) // each batch length is 3
+
             // Wait for all emails to be sent
             let results: { email: string; success: boolean }[] = []
             for (const sendEmail of sendEmailPromises) {
                 // Wait for all emails to be sent
-                const email = await sendEmail
-                results.push(email)
+                const chunk = await Promise.all(sendEmail)
+                results.push(...chunk)
                 await await new Promise((res) => setTimeout(res, 6000))
             }
 
