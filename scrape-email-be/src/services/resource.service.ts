@@ -143,7 +143,7 @@ export class ResourceService implements IResourceService {
                 // Wait for all emails to be sent
                 const chunk = await Promise.all(sendEmail)
                 results.push(...chunk)
-                await await new Promise((res) => setTimeout(res, 6000))
+                await new Promise((res) => setTimeout(res, 6000))
             }
 
             // Remove uploaded files
