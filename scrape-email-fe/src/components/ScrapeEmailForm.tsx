@@ -193,7 +193,6 @@ const ScrapeEmailForm: React.FC = () => {
       a.remove();
       window.URL.revokeObjectURL(url);
 
-      alert("Form submitted successfully! File downloaded.");
       // Reset form or keep data as needed
     } catch (error) {
       console.error("Submit failed:", error);
@@ -322,7 +321,10 @@ const ScrapeEmailForm: React.FC = () => {
           {/* Body textarea */}
           <Form.Group controlId="emailBody" className="mb-3">
             <Form.Label>Email Body</Form.Label>
-            <RichTextEditor setSharedEditorState={setEditorState} />
+            <RichTextEditor
+              value={editorState}
+              setSharedEditorState={setEditorState}
+            />
           </Form.Group>
           {/* Multiple file upload */}
           <Form.Group controlId="fileUpload" className="mb-3">
