@@ -4,6 +4,7 @@ import { Worker } from 'worker_threads'
 import nodemailer from 'nodemailer'
 import fs from 'fs'
 import util from 'util'
+import { chunk } from 'lodash'
 
 export interface IResourceService {
     ScrapeEmails(links: string[]): Promise<Set<string>>
@@ -99,9 +100,6 @@ export class ResourceService implements IResourceService {
             })),
         }
 
-        // wait 2 seconds each time
-        await new Promise((res) => setTimeout(res, 2000))
-
         try {
             const info = await transporter.sendMail(mailOptions)
             console.log(`Email sent to ${email}:`, info.response)
@@ -122,18 +120,31 @@ export class ResourceService implements IResourceService {
     ): Promise<Map<string, string>> {
         try {
             // Create an array of promises
-            const sendEmailPromises = emails.map((email) =>
-                this.SendEmail(
-                    accessToken || '',
-                    email,
-                    subject,
-                    body,
-                    attachedFiles
-                )
-            )
+            //
+            // wait 2 seconds each time
+            //await new Promise((res) => setTimeout(res, 2000))
+
+            const sendEmailPromises = chunk(
+                emails.map((email) =>
+                    this.SendEmail(
+                        accessToken || '',
+                        email,
+                        subject,
+                        body,
+                        attachedFiles
+                    )
+                ),
+                3
+            ) // each batch length is 3
 
             // Wait for all emails to be sent
-            const results = await Promise.all(sendEmailPromises)
+            let results: { email: string; success: boolean }[] = []
+            for (const sendEmail of sendEmailPromises) {
+                // Wait for all emails to be sent
+                const chunk = await Promise.all(sendEmail)
+                results.push(...chunk)
+                await await new Promise((res) => setTimeout(res, 6000))
+            }
 
             // Remove uploaded files
             for (const file of attachedFiles) {
