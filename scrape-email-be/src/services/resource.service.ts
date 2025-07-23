@@ -99,6 +99,9 @@ export class ResourceService implements IResourceService {
             })),
         }
 
+        // wait 2 seconds each time
+        await new Promise((res) => setTimeout(res, 2000))
+
         try {
             const info = await transporter.sendMail(mailOptions)
             console.log(`Email sent to ${email}:`, info.response)
