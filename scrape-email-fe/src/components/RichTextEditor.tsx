@@ -6,13 +6,9 @@ import "react-quill/dist/quill.core.css"; // Core styles for Quill editor
 
 interface RichTextEditorProps {
   setSharedEditorState: React.Dispatch<React.SetStateAction<string>>;
-  value: string; // Optional prop to set initial content
 }
 
-const RichTextEditor = ({
-  setSharedEditorState,
-  value,
-}: RichTextEditorProps) => {
+const RichTextEditor = ({ setSharedEditorState }: RichTextEditorProps) => {
   const [editorState, setEditorState] = useState("");
 
   const handleEditorChange = (
@@ -21,7 +17,7 @@ const RichTextEditor = ({
     source: any,
     editor: any
   ) => {
-    setEditorState(value);
+    setEditorState(content);
     setSharedEditorState(content);
   };
 
