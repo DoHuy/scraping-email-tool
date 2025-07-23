@@ -322,8 +322,9 @@ const ScrapeEmailForm: React.FC = () => {
           <Form.Group controlId="emailBody" className="mb-3">
             <Form.Label>Email Body</Form.Label>
             <RichTextEditor
-              value={editorState}
-              setSharedEditorState={setEditorState}
+              handleOnchange={(content) => {
+                setEditorState(content);
+              }}
             />
           </Form.Group>
           {/* Multiple file upload */}

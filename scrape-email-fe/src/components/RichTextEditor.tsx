@@ -5,10 +5,10 @@ import "react-quill/dist/quill.bubble.css"; // Bubble theme
 import "react-quill/dist/quill.core.css"; // Core styles for Quill editor
 
 interface RichTextEditorProps {
-  setSharedEditorState: React.Dispatch<React.SetStateAction<string>>;
+  handleOnchange: (content: string) => void;
 }
 
-const RichTextEditor = ({ setSharedEditorState }: RichTextEditorProps) => {
+const RichTextEditor = ({ handleOnchange }: RichTextEditorProps) => {
   const [editorState, setEditorState] = useState("");
 
   const handleEditorChange = (
@@ -18,7 +18,7 @@ const RichTextEditor = ({ setSharedEditorState }: RichTextEditorProps) => {
     editor: any
   ) => {
     setEditorState(content);
-    setSharedEditorState(content);
+    handleOnchange(content);
   };
 
   // Defining the toolbar options (customizable)
