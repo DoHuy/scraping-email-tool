@@ -192,6 +192,11 @@ export class ResourceService implements IResourceService {
 
         // Create worksheet and workbook
         const worksheet = XLSX.utils.json_to_sheet(data)
+
+        worksheet['!cols'] = [
+            { wch: 100 }, // Email column width
+            { wch: 25 }, // Status column width
+        ]
         const workbook = XLSX.utils.book_new()
         XLSX.utils.book_append_sheet(workbook, worksheet, 'EmailStatus')
         const buffer = XLSX.write(workbook, {
